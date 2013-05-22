@@ -1,0 +1,282 @@
+%% This is file `icrc2013.sty'
+%% Style to 33nd International Cosmic Ray Conference 2013 Rio de Janeiro
+%%
+%% Adapted from icrc2011.sty by Casa Editorial Maluhy&Co.
+%% Any LaTeX article created with icrc2011.sty is fully compatible with this package.
+%%
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{icrc2013}[2013/01/01 v0.3]
+
+%% Required packages
+\RequirePackage{mathptmx}
+\RequirePackage{ftnright}
+\RequirePackage{fancyhdr}
+\RequirePackage{graphicx}
+\RequirePackage{hyperref}
+\RequirePackage[stretch=24,shrink=24]{microtype}
+
+%% Logo
+\newcommand{\@logosource}{icrc2013_header}
+\newcommand{\logosource}[1]{\gdef\@logosource{#1}}
+
+%% Title
+\gdef\@@title{33rd International Cosmic Ray Conference, Rio de Janeiro 2013}
+
+%% SubTitle
+\gdef\@@subtitle{The Astroparticle Physics Conference}
+
+
+%% Page layout
+\paperwidth210truemm %
+\paperheight297truemm%
+\pdfpagewidth210truemm %
+\pdfpageheight297truemm%
+\hoffset0mm%
+\voffset-25.4mm%
+\textwidth170mm%
+\textheight252mm%
+\topmargin5mm%
+\oddsidemargin-5.4mm%
+\evensidemargin-5.4mm%
+\columnsep1.5pc%
+\headwidth\textwidth%
+\headheight20mm%
+\headsep1pc%
+\footskip2pc%
+\marginparsep0pc%
+
+%% Authors, afiliations, emails, abstract, paperid, etc. (same as icrc2011)
+\newcommand{\@authors}{}
+\newcommand{\authors}[1]{\renewcommand{\@authors}{#1}}
+\newcommand{\@paperid}{}
+\newcommand{\paperid}[1]{\renewcommand{\@paperid}{#1}}
+\newcommand{\@shorttitle}{}
+\newcommand{\shorttitle}[1]{\renewcommand{\@shorttitle}{#1}}
+\newcommand{\@shortauthors}{}
+\newcommand{\shortauthors}[1]{\renewcommand{\@shortauthors}{#1}}
+\newcommand{\@afiliations}{}
+\newcommand{\afiliations}[1]{\renewcommand{\@afiliations}{#1}}
+\newcommand{\@email}{}
+\newcommand{\email}[1]{\renewcommand{\@email}{#1}}
+\newcommand{\@abstract}{}
+\renewcommand{\abstract}[1]{\renewcommand{\@abstract}{#1}}
+\newcommand{\@keywords}{}
+\newcommand{\keywords}[1]{\renewcommand{\@keywords}{#1}}
+
+%% Fonts
+\def\@normalsize{\@setsize\normalsize{10pt}\xipt\@xipt}    % 10 point on 11
+\def\small{\@setsize\small{10pt}\ixpt\@ixpt}               % 9 point on 10
+\def\footnotesize{\@setsize\footnotesize{9pt}\ixpt\@ixpt}  % 9 point on 10
+\def\scriptsize{\@setsize\scriptsize{8pt}\viipt\@viipt}    % 7 point on 8
+\def\tiny{\@setsize\tiny{7pt}\vipt\@vipt}                  % 6 point on 7
+\def\large{\@setsize\large{12pt}\xipt\@xipt}               % 11 point on 12
+\def\Large{\@setsize\Large{14pt}\xiipt\@xiipt}             % 12 point on 14
+\def\LARGE{\@setsize\LARGE{16pt}\xivpt\@xivpt}             % 14 point on 16
+\def\huge{\@setsize\huge{20pt}\xviipt\@xviipt}             % 17 point on 20
+\def\Huge{\@setsize\Huge{23pt}\xxpt\@xxpt}                 % 20 point on 23
+
+\normalsize% default fontsize
+\parskip0pt\@plus.2pt%
+\parindent11pt%
+
+%% Header
+\fancypagestyle{plain}{
+  \setlength\headwidth{\textwidth}
+  \renewcommand\headrulewidth{0pt}
+  \renewcommand\footrulewidth{0pt}
+  \fancyhf{}
+  \fancyhead[R]{%
+    \rightskip27mm%
+    \small%
+    \addtolength\baselineskip{2pt}%
+    \@shorttitle\strut\\%
+    \hrulefill\enskip\textsc{\@@title}\strut\\[-2ex]%
+  }
+  \fancyhead[L]{%
+    \small%
+    \unitlength1mm%
+    \begin{picture}(0,0)
+      \put(170,.2){\makebox(0,0)[br]{\includegraphics[width=23mm]{icrc2013_header}}}
+      %%%\put(0,6){\makebox(0,0)[bl]{[\,\thepage\,]}}% optional page numbering
+    \end{picture}%
+  }
+}
+\pagestyle{plain}
+
+%% Footnote
+\footnotesep11pt%
+\skip\footins11pt plus 4pt minus 2pt
+\def\footnoterule{\kern-3pt\hrule width.382\linewidth\kern2.6pt}
+\renewcommand\@makefntext[1]{%
+  \par%
+  \begingroup%
+  \footnotesize\hangindent1em\hangafter0%
+  \noindent\makebox[0pc][r]{\makebox[1em][l]{\thefootnote.}}\ignorespaces#1%
+  \par%
+  \endgroup%
+}
+\setcounter{footnote}{0}
+
+%% Article title
+\renewcommand{\maketitle}{
+  \twocolumn[%
+    \begin{@twocolumnfalse}%
+      \thispagestyle{empty}%
+      \normalsize%
+      % icrc title and logo
+      \begingroup%
+      \parindent0pt%
+      \unitlength1mm%
+      \begin{picture}(0,0)%
+        \put(0,8){\makebox(0,0)[tl]{\normalsize\scshape\resizebox{115mm}{!}{\@@title}}}
+        \put(0,2.9){\makebox(0,0)[tl]{\normalsize\scshape\resizebox{70mm}{!}{\@@subtitle}}}
+        \put(167,12){\makebox(0,0)[tr]{\includegraphics[width=10pc]{\@logosource}}}
+      \end{picture}%
+      \par%
+      \endgroup%
+      \vskip2\baselineskip%
+      % article title
+      \begingroup%
+      \parindent0pt%
+      \unitlength1mm%
+      \begin{picture}(0,0)%
+        \put(0,8.9){%
+          \makebox(0,0)[tl]{%
+            \parbox{115mm}{%
+              \parindent0pt%
+              \raggedright\bfseries\LARGE%
+              \hrulefill\\%
+             %\vspace{1cm}
+              %\@title%
+            }%
+          }%
+        }%
+      \end{picture}%
+      \par%
+      \endgroup%h
+      % fix distance
+      \vskip-0.5\baselineskip%
+      % proceeding title
+      \begingroup%
+      \parindent0pt%
+      \raggedright\bfseries\LARGE%
+       \@title%
+       \endgroup
+       \vskip0.5\baselineskip%
+      % authors
+      \begingroup%
+      \parindent0pt%
+      \raggedright\scshape%
+      \@authors%
+      \par%
+      \endgroup%
+      \vskip.5\baselineskip%
+      % afiliations
+      \begingroup%
+      \parindent0pt%
+      \raggedright\itshape\footnotesize%
+      \@afiliations%
+      \par%
+      \endgroup%
+      \vskip.5\baselineskip%
+      % email
+      \begingroup%
+      \parindent0pt%
+      \textit{\@email}%
+      \par%
+      \endgroup%
+      \vskip\baselineskip%
+      % abstract and keywords
+      \begingroup%
+      \leftskip3pc%
+      \textbf{Abstract:}\enskip{\@abstract}\par%
+      \vskip\baselineskip%
+      \rightskip0pc\@plus2pc%
+      \textbf{Keywords:}\enskip{\@keywords}\par%
+      \endgroup%
+      \vskip2\baselineskip%
+    \end{@twocolumnfalse}%
+  ]%
+}
+
+%% Figures
+\gdef\figurename{Fig.}
+\def\fnum@figure{\textbf{\figurename\,\thefigure}}
+
+%% Tables
+\gdef\tablename{Table}
+\def\fnum@table{\textbf{\tablename~\thetable}}
+
+%% Bibliography layout
+\let\oldthebibliography=\thebibliography
+\let\endoldthebibliography=\endthebibliography
+\renewenvironment{thebibliography}[1]
+{%
+  \begin{oldthebibliography}{#1}%
+    \parskip0pt\@plus.2pt%
+    \itemsep\parskip%
+    \raggedright%
+}{%
+  \end{oldthebibliography}%
+}
+
+%% Main sections
+\renewcommand\section{%
+  \@startsection{section}%
+                {1}%
+                {\z@}%
+                {-18pt\@plus1pt\@minus1pt}%
+                {.382\baselineskip}%
+                {\raggedright\Large\bfseries\boldmath}%
+}
+\renewcommand\subsection{%
+  \@startsection{subsection}%
+                {2}%
+                {\z@}%
+                {-9pt\@plus.8pt\@minus.4pt}%
+                {.2\baselineskip}%
+                {\raggedright\large\bfseries\boldmath}%
+}
+\renewcommand\subsubsection{%
+  \@startsection{subsubsection}%
+                {3}%
+                {\z@}%
+                {-9pt\@plus.6pt\@minus.3pt}%
+                {.2\baselineskip}%
+                {\raggedright\normalsize\bfseries\boldmath}%
+}
+
+%% General behavior of paragraph layout
+\flushbottom
+\sloppy
+\adjdemerits=20
+\hyphenpenalty=20
+\exhyphenpenalty=0
+\doublehyphendemerits=20
+\finalhyphendemerits=80
+\lefthyphenmin=1
+\righthyphenmin=1
+\binoppenalty=100
+\interlinepenalty=0
+\predisplaypenalty=40
+\postdisplaypenalty=0
+\displaywidowpenalty=9999
+\widowpenalty=9999
+\clubpenalty=300
+\brokenpenalty=30
+\pretolerance=300
+\tolerance=900
+\emergencystretch=1em
+\frenchspacing
+
+%% Some glue to garantee flushbottom layout
+\AtBeginDocument{%
+  \normalsize%
+  \baselineskip11pt\@plus.2pt\@minus.1pt%
+  \parskip0pt%
+}
+
+\twocolumn
+
+
+%% End of file `icrc2013.sty'
