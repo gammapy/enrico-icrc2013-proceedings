@@ -1,0 +1,44 @@
+[target]
+    name = PKS2155
+    ra = 329.7
+    dec = -30.2
+    spectrum = PowerLaw
+
+[space]
+    xref = 329.7
+    yref = -30.2
+    rad = 8.0
+    srcpix = 120
+    nxpix = 200
+    nypix = 200
+    nlong = 120.0
+    nlat = 120.0
+    binsz = 0.1
+    coordsys = CEL
+    proj = AIT
+    phibins = 0.0
+
+[time]
+    tmin = 239557418.0
+    tmax = 271093418.0
+
+[energy]
+    emin = 100.0
+    emax = 300000.0
+    enumbins_per_decade = 10
+
+[analysis]
+
+    likelihood = binned
+    evclass = 2
+    ComputeDiffrsp = yes
+    zmax = 100.0
+    roicut = no
+    filter = DATA_QUAL==1&&LAT_CONFIG==1&&ABS(ROCK_ANGLE)<52
+    irfs = P7SOURCE_V6
+    convtype = -1
+
+[fitting]
+    optimizer = MINUIT
+    ftol = 1e-06
+
