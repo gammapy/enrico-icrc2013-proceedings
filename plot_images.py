@@ -56,9 +56,9 @@ for ii, image in enumerate(images):
     f = FITSFigure(image['filename'], figure=figure, subplot=subplot)
     f.recenter(x_center, y_center, 0.95 * radius)
     set_hgps_style(f)
-    f.show_colorscale(vmin=-1, vmax=5, stretch='power', exponent=1, cmap='gray') #vmid=-3, stretch='log', )
+    f.show_colorscale(vmin=-1, vmax=8, stretch='power', exponent=1, cmap='jet') #vmid=-3, stretch='log', )
     # TODO: overplot sources  
-    # f.show_regions()
+#    f.show_regions("sources.reg")
 
 filename = 'icrc2013_89_06.pdf'
 print('Writing {}'.format(filename))

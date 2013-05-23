@@ -71,10 +71,14 @@ tools. The use of these tools requires some expertise and detailed tutorials
 written by the LAT team.
 
 While very complete, the ST lack several important features, e.g. spectrum and
-light-curve generation, etc..., and can be difficult to configure, hard to use on
-CPU clusters to take advantage of the availability of several computation
-cores. Based on the ST Python interface, the {\tt Enrico} package implements
-such features and simplifies the data analysis.
+light-curve generation, etc..., and can be difficult to configure, hard to use
+on CPU clusters to take advantage of the availability of several computation
+cores. Based on the ST Python interface, few user contributions
+exist\footnote{see \url{http://fermi.gsfc.nasa.gov/ssc/data/analysis/user/}}.
+Most of them only perform a single task. The {\tt Enrico} package, presented
+here, implements a full analysis chain, missing features and simplifies the data
+analysis.
+
 
 \section{Features}
 
@@ -100,27 +104,48 @@ for functions and classes in the {\tt Enrico} Python package.
 \item Control plots were added to ensure the reliability of the analysis.
 \end{itemize}
 
-Written in Python, the code is portable and does not rely on the CPU architecture nor on the ST version. Documentation, tutorial and instructions for installation are available at \url{http://enrico.readthedocs.org}. 
+Written in Python, the code is portable and does not rely on the CPU
+architecture nor on the ST version. Documentation, tutorial and instructions for
+installation are available at \url{http://enrico.readthedocs.org}. 
 
-The {\tt Enrico} package includes a job submission module allowing some parallelisation of the tasks, mainly for spectra (energy bins) and light curves (time bins). Currently the MPIK\footnote{\url{http://www.mpi-hd.mpg.de/}} and LAPP\footnote{\url{http://lapp.in2p3.fr/}} clusters are supported but others can easily be added by the user.
+The {\tt Enrico} package includes a job submission module allowing some
+parallelisation of the tasks, mainly for spectra (energy bins) and light curves
+(time bins). Currently the MPIK\footnote{\url{http://www.mpi-hd.mpg.de/}} and
+LAPP\footnote{\url{http://lapp.in2p3.fr/}} clusters are supported but others can
+easily be added by the user.
 
 \section{A simple analysis}
 
 \subsection{Prepare and run your analysis}
 
-Few steps need to be done before actually running the \Fermi analysis. The command-line tools work with a configuration file that needs to be generated. This is done by:
+Few steps need to be done before actually running the \Fermi analysis. The
+command-line tools work with a configuration file that needs to be generated.
+This is done by:
 \mbox{{\tt> enrico\_config PKS2155.conf}} 
-where {\tt PKS2155.conf} is the name of the configuration files that will be created. For this exemple, the blazar PKS~2155-304 has been analysed using data from MET=239557418 to MET=271093418 with an energy range from 100~MeV to 300~GeV.
+where {\tt PKS2155.conf} is the name of the configuration files that will be
+created. For this exemple, the blazar PKS~2155-304 has been analysed using data
+from MET=239557418 to MET=271093418 with an energy range from 100~MeV to
+300~GeV.
 
-Few questions will be asked about the analysis to perform (source name, position, time, energy range, etc...). The \Fermi data analysis uses a sky model written in an xml file. The package reads the 2FGL catalogue \cite{2012ApJS..199...31N} to generate a coresponding xml model using the tool :
+Few questions will be asked about the analysis to perform (source name,
+position, time, energy range, etc...). The \Fermi data analysis uses a sky model
+written in an xml file. The package reads the 2FGL catalogue
+\cite{2012ApJS..199...31N} to generate a coresponding xml model using the tool :
 
 \mbox{{\tt> enrico\_xml PKS2155.conf}}
 
-The produced xml file contains all the sources with the user-defined region of interest plus 10 degrees. Only sources within 3 degrees around the source have their parameters free to vary. Several spectral models are supported (PowerLaw, PowerLaw2, LogParabola, PLExpCutoff, Generic). At this point, the likelihood analysis implemented in {\tt gtlike}, can be simply performed with the command :
+The produced xml file contains all the sources with the user-defined region of
+interest plus 10 degrees. Only sources within 3 degrees around the source have
+their parameters free to vary. Several spectral models are supported (PowerLaw,
+PowerLaw2, LogParabola, PLExpCutoff, Generic). At this point, the likelihood
+analysis implemented in {\tt gtlike}, can be simply performed with the command :
 
 \mbox{{\tt enrico\_sed PKS2155.conf}}
 
-A full spectrum and also data points (see Fig.~\ref{fig:SED}) are then computed. The covariance matrix obtained during the minimisation process is then used to compute the 68\% error contour also called butterfly. If the source is not detected (i.e. below the user-defined TS), an upper limit is computed.
+A full spectrum and also data points (see Fig.~\ref{fig:SED}) are then computed.
+The covariance matrix obtained during the minimisation process is then used to
+compute the 68\% error contour also called butterfly. If the source is not
+detected (i.e. below the user-defined TS), an upper limit is computed.
 
 Lightcurves (Fig.~\ref{fig:LC}) and TS maps can be produced by {\tt Enrico} using :
 
@@ -128,7 +153,14 @@ Lightcurves (Fig.~\ref{fig:LC}) and TS maps can be produced by {\tt Enrico} usin
 
 \mbox{{\tt> enrico\_tsmap PKS2155.conf}}
 
-The previous commands run several jobs either in parallel by submitting them to a cluster or sequentially one after the other. A single job is very similar to a spectrum calculation. {\tt FITS} files that are need by {\tt gtlike} are produced and the minimisation is performed either in time bins (light-curves) or in space bins (TS map). For each tool, the generation of the {\tt FITS} files can be skipped if they have already been produced in a previsous analysis. This allows to save CPU time in the cases of recomputation of the best-fit values after a change in the sky model for exemple.
+The previous commands run several jobs either in parallel by submitting them to
+a cluster or sequentially one after the other. A single job is very similar to a
+spectrum calculation. {\tt FITS} files that are need by {\tt gtlike} are
+produced and the minimisation is performed either in time bins (light-curves) or
+in space bins (TS map). For each tool, the generation of the {\tt FITS} files
+can be skipped if they have already been produced in a previsous analysis. This
+allows to save CPU time in the cases of recomputation of the best-fit values
+after a change in the sky model for exemple.
 
  \begin{figure}[ht!]
   \centering
@@ -153,29 +185,44 @@ The previous commands run several jobs either in parallel by submitting them to 
 \mbox{{\tt> enrico\_plot\_tsmap PKS2155.conf}}
 
 
-It is also posible to compute the log-likelihood value of several spectral models assumed for the source of interest. Tested models are PowerLaw, LogParabola and PLExpCutoff. The tool is called by :
+It is also posible to compute the log-likelihood value of several spectral
+models assumed for the source of interest. Tested models are PowerLaw,
+LogParabola and PLExpCutoff. The tool is called by :
 
 \mbox{{\tt> enrico\_testmodel PKS2155.conf}}
 
 
 \subsection{Configuration file}
-The configuration file is a {\tt ascii} file automaticaly generated by the package but that can be edited by the user. An exemple is presented in Fig.~\ref{fig:conf}.
+The configuration file is a {\tt ascii} file automaticaly generated by the
+package but that can be edited by the user. An exemple is presented in
+Fig.~\ref{fig:conf}.
 
- \begin{figure}[t]
+ \begin{figure}[!t]
   \centering
   \includegraphics[width=0.4\textwidth]{icrc2013_89_03}
   \caption{Exemple of a configuration file for {\tt Enrico}.}
   \label{fig:conf}
  \end{figure}
 
-A configuration file is divided in sections. It contains simple sections (e.g. \textbf{energy}, \textbf{time}) in which the user defines cuts applied for all analysis. More specific sections exist and are used by only one tool (e.g. section \textbf{spectrum} for {\tt enrico\_sed}).
+A configuration file is divided in sections. It contains simple sections (e.g.
+\textbf{energy}, \textbf{time}) in which the user defines cuts applied for all
+analysis. More specific sections exist and are used by only one tool (e.g.
+section \textbf{spectrum} for {\tt enrico\_sed}).
 
 
 \subsection{Check your results}
 
-While in principle straightforward, the ST might be tricky to use and the results of a \Fermi data analysis should be checked. {\tt Enrico} proposes few control plots in order to ensure the reliability of an analysis. 
+While in principle straightforward, the ST might be tricky to use and the
+results of a \Fermi data analysis should be checked. {\tt Enrico} proposes few
+control plots in order to ensure the reliability of an analysis. 
 
-For the spectrum, a count plot (Fig.~\ref{fig:control1}) and a residual plot are produced. For the light-curves, a plot, $N_{\rm pred}/\sqrt{N_{\rm pred}}$ vs Flux$/\Delta$ Flux (Fig.~\ref{fig:control2}), is made to unsure the good computation of the errors since the two values must be correlated. Count map, model map and residual map (Fig.~\ref{fig:Map}) are also automaticaly produced and can be used to see if a source should be added to the sky model or have its paramters free.
+For the spectrum, a count plot (Fig.~\ref{fig:control1}) and a residual plot are
+produced. For the light-curves, a plot, $N_{\rm pred}/\sqrt{N_{\rm pred}}$ vs
+Flux$/\Delta$ Flux (Fig.~\ref{fig:control2}), is made to unsure the good
+computation of the errors since the two values must be correlated. Count map,
+model map and residual map (Fig.~\ref{fig:Map}) are also automaticaly produced
+and can be used to see if a source should be added to the sky model or have its
+paramters free.
 
 
  \begin{figure}[t]
@@ -192,14 +239,18 @@ For the spectrum, a count plot (Fig.~\ref{fig:control1}) and a residual plot are
 
 \section{Conclusions}
 
-{\tt Enrico} is a powerful tool written in {\tt Python} to run the \Fermi ScienceTools. With the addition of debug plots and submission of several job on cluster of CPUs, rapid, robust and reproducible analyses can be performed easily.
-The implementation of automatic download of data from the FSSC data server for a given sky region, energy band and time range is being
-implemented as part of the {\tt astroquery.fermi} module (see \url{https://github.com/astropy/astroquery}), which is a Python package
-to access public astronomy data services on the web.
+{\tt Enrico} is a powerful tool written in {\tt Python} to run the \Fermi
+ScienceTools. With the addition of debug plots and submission of several job on
+cluster of CPUs, rapid, robust and reproducible analyses can be performed
+easily. The implementation of automatic download of data from the FSSC data
+server for a given sky region, energy band and time range is being implemented
+as part of the {\tt astroquery.fermi} module (see
+\url{https://github.com/astropy/astroquery}), which is a Python package to
+access public astronomy data services on the web.
 
-We invite the reader to try {\tt Enrico} for \Fermi LAT data analysis.
-Start by downloading it from \url{https://github.com/gammapy/enrico}
-and browsing the documentation at \url{http://enrico.readthedocs.org}.
+We invite the reader to try {\tt Enrico} for \Fermi LAT data analysis. Start by
+downloading it from \url{https://github.com/gammapy/enrico} and browsing the
+documentation at \url{http://enrico.readthedocs.org}.
 
  \begin{figure}[t]
   \centering
