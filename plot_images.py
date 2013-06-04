@@ -57,8 +57,10 @@ for ii, image in enumerate(images):
     f.recenter(x_center, y_center, 0.95 * radius)
     set_hgps_style(f)
     f.show_colorscale(vmin=-1, vmax=8, stretch='power', exponent=1, cmap='jet') #vmid=-3, stretch='log', )
-    # TODO: overplot sources  
-#    f.show_regions("sources.reg")
+    if ii == 1:
+        f.show_regions('sources.reg')
+    else:
+        f.show_regions('sources2.reg')
 
 filename = 'icrc2013_89_06.pdf'
 print('Writing {}'.format(filename))
